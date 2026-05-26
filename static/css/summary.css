@@ -1,38 +1,53 @@
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #eef2ff;
+#summaryPage {
+    display: none;
 }
 
-.page-wrapper {
+/* #summaryPage.active {
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
+} */
+
+#summaryPage .exit-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    background-color: #e0f2fe;
+    border: 1px solid #010101;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
-.image, .summary-title {
+#summaryPage .image,
+#summaryPage .summary-title {
     width: 75%;
 }
 
-.image {
+#summaryPage .image {
     height: 75%;
     object-fit: fill;
     border: 1px solid #010101;
+    display: block;
 }
 
-.summary-title {
+#summaryPage .summary-title {
     display: flex;
     height: 10%;
-    justify-content: left;
+    justify-content: flex-start;
     align-items: center;
-    /* border: 1px solid #010101; */
     gap: 10px;
 }
 
-.label, .text {
+#summaryPage .label,
+#summaryPage .text {
     height: 100%;
     font-size: 24px;
     font-weight: bold;
@@ -40,7 +55,7 @@ body {
     border-radius: 10px;
 }
 
-.label {
+#summaryPage .label {
     display: flex;
     width: auto;
     justify-content: center;
@@ -49,10 +64,10 @@ body {
     background-color: #e0f2fe;
 }
 
-.text {
+#summaryPage .text {
     display: flex;
     flex: 1;
-    justify-content: left;
+    justify-content: flex-start;
     align-items: center;
     padding: 0 10px;
     background-color: #ffffff;

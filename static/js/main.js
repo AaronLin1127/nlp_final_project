@@ -60,7 +60,20 @@ function renderCalendar(data) {
 
     $("#calendarGrid").html(html);
     $(".calendar-day:not(.empty)").click(function () {
-        fetch(`/api/summary/${data.year}/${data.month}/${$(this).text()}`)
-            .then(res => res.json())
+        switchPage("summary");
     });
+}
+
+function switchPage(page) {
+    // Simple SPA page switcher for TESTING PURPOSES ONLY
+
+    if (page === "calendar") {
+        $("#summaryPage").hide();
+        $("#calendarPage").show();
+    }
+
+    if (page === "summary") {
+        $("#calendarPage").hide();
+        $("#summaryPage").show();
+    }
 }

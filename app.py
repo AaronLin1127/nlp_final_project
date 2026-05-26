@@ -21,9 +21,6 @@ def api_calendar(year, month):
         "cal_data": cal_data
     })
 
-@app.route("/summary")
-def summary():
-    return render_template("summary.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
