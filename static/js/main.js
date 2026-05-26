@@ -2,6 +2,8 @@ let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth() + 1;
 
 $(function () {
+    showPage("calendar");
+
     loadCalendar(currentYear, currentMonth);
 
     $("#prev").click(function () {
@@ -24,6 +26,10 @@ $(function () {
         }
 
         loadCalendar(currentYear, currentMonth);
+    });
+
+    $("#exitSummary").click(function () {
+        showPage("calendar");
     });
 });
 
@@ -60,20 +66,23 @@ function renderCalendar(data) {
 
     $("#calendarGrid").html(html);
     $(".calendar-day:not(.empty)").click(function () {
-        switchPage("summary");
+        fetch(`/api/summary/${currentYear}/${currentMonth}/${$(this).text()}`)
+            .then(res => res.json())
+            .then(data => {
+                $("#summaryText").text(data.summary);
+                showPage("summary");
+            });
     });
 }
 
-function switchPage(page) {
-    // Simple SPA page switcher for TESTING PURPOSES ONLY
-
+function showPage(page) {
     if (page === "calendar") {
-        $("#summaryPage").hide();
-        $("#calendarPage").show();
+        $("#summaryPage").removeClass("active");
+        $("#calendarPage").addClass("active");
     }
 
     if (page === "summary") {
-        $("#calendarPage").hide();
-        $("#summaryPage").show();
+        $("#calendarPage").removeClass("active");
+        $("#summaryPage").addClass("active");
     }
 }

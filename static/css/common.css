@@ -5,11 +5,3 @@ body {
     padding: 0;
     color: #1f2937;
 }
-
-.page-wrapper {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-}
