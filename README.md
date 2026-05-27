@@ -16,10 +16,21 @@
 
 	```
  	python -m venv .venv
- 	.venv\Scripts\activate
  	```
+	如果 python 不在環境變數裡
+	```
+	<python.exe的路徑> -m venv .venv
+	```
+	預設的python安裝路徑
+	C:\Users\\`user name`\\AppData\\Local\\Programs\\Python\\`python version`\\python.exe
 
- 4. 安裝套件
+4. 啟動虛擬環境
+
+	```
+	.venv\Scripts\activate
+	```
+
+5. 安裝套件
 
 	```
  	pip install -r requirements.txt
