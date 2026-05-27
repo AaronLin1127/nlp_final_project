@@ -56,7 +56,11 @@
             <div class="text" id="summaryText">The summary of the content</div>
         </section>
 
+        <audio controls>
+            <source src="{{ url_for('static', filename='resource/summary.mp3') }}">
+        </audio>
     </div>
+
     <div id="loading">
         <div class="spinner"></div>
     </div>
