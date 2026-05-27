@@ -66,11 +66,13 @@ function renderCalendar(data) {
 
     $("#calendarGrid").html(html);
     $(".calendar-day:not(.empty)").click(function () {
+        showLoading();
         fetch(`/api/summary/${currentYear}/${currentMonth}/${$(this).text()}`)
             .then(res => res.json())
             .then(data => {
                 $("#summaryText").text(data.summary);
                 showPage("summary");
+                hideLoading();
             });
     });
 }
@@ -85,4 +87,12 @@ function showPage(page) {
         $("#calendarPage").removeClass("active");
         $("#summaryPage").addClass("active");
     }
+}
+
+function showLoading() {
+    $("#loading").addClass("active");
+}
+
+function hideLoading() {
+    $("#loading").removeClass("active");
 }
