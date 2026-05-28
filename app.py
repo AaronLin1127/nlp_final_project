@@ -1,8 +1,16 @@
+from pathlib import Path
+
 from flask import Flask, render_template, jsonify
 import calendar
 from datetime import datetime
 
+from services.news_script import generate_news_script
+from services.speech import text_to_speech
+
 app = Flask(__name__)
+
+RESOURCE_DIR = Path(app.root_path) / "static" / "resource"
+SUMMARY_MP3 = RESOURCE_DIR / "summary.mp3"
 
 @app.route("/")
 def index():
@@ -25,19 +33,23 @@ def api_calendar(year, month):
 @app.route("/api/summary/<int:year>/<int:month>/<int:day>")
 def api_summary(year, month, day):
     r"""
-    TODO:
-    改成根據日期生成對應的文字雲、文字稿、文字稿音檔、文字稿摘要(一句話)
-    文字雲要存到 nlp_final_project\static\resource\summary.png
-    文字稿音檔存到 nlp_final_project\static\resource\summary.mp3
-    並回傳文字稿摘要(一句話)給前端
+    依日期生成：文字雲(summary.png)、新聞稿、音檔(summary.mp3)、一句話摘要。
+    新聞稿由 services.news_script 產生（GPT 隊友可替換實作）；
+    音檔由 services.speech.text_to_speech 產生。
     """
-    import time
-    time.sleep(3)  # 模擬生成摘要的時間
+    # TODO: 文字雲 → static/resource/summary.png（隊友負責）
 
-    summary = f"Summary for {year}-{month:02d}-{day:02d}: This is a sample summary of the day's events."
+    try:
+        script = generate_news_script(year, month, day)
+        text_to_speech(script, SUMMARY_MP3)
+    except (FileNotFoundError, ValueError, RuntimeError) as exc:
+        return jsonify({"error": str(exc)}), 500
+
+    summary = script.split("。")[0] + "。" if "。" in script else script[:80]
 
     return jsonify({
-        "summary": summary
+        "summary": summary,
+        "script": script,
     })
 
 

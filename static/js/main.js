@@ -68,11 +68,23 @@ function renderCalendar(data) {
     $(".calendar-day:not(.empty)").click(function () {
         showLoading();
         fetch(`/api/summary/${currentYear}/${currentMonth}/${$(this).text()}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(body => {
+                        throw new Error(body.error || "無法載入摘要");
+                    });
+                }
+                return res.json();
+            })
             .then(data => {
                 $("#summaryText").text(data.summary);
+                refreshSummaryAudio();
                 showPage("summary");
                 hideLoading();
+            })
+            .catch(err => {
+                hideLoading();
+                alert(err.message);
             });
     });
 }
@@ -95,4 +107,11 @@ function showLoading() {
 
 function hideLoading() {
     $("#loading").removeClass("active");
+}
+
+function refreshSummaryAudio() {
+    const audio = document.querySelector("#summaryPage audio");
+    const source = audio.querySelector("source");
+    source.src = `/static/resource/summary.mp3?t=${Date.now()}`;
+    audio.load();
 }
