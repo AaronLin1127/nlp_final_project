@@ -78,6 +78,16 @@ function renderCalendar(data) {
             })
             .then(data => {
                 $("#summaryText").text(data.summary);
+                const sentiment = data.sentiment || "Neutral";
+                const $sentimentEl = $("#sentimentText");
+                $sentimentEl.text(sentiment);
+                $sentimentEl.removeClass(
+                    "sentiment-positive sentiment-neutral sentiment-negative"
+                );
+                const key = sentiment.toLowerCase();
+                if (key === "positive" || key === "neutral" || key === "negative") {
+                    $sentimentEl.addClass(`sentiment-${key}`);
+                }
                 refreshSummaryAudio();
                 showPage("summary");
                 hideLoading();
